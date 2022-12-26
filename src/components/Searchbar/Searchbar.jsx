@@ -1,42 +1,37 @@
 import css from './Searchbar.module.css';
-import { Component } from 'react';
+import { useState } from 'react';
 
-export class Searchbar extends Component {
-  state = {
-    query: '',
-    page: 1,
-    images: [],
-  };
+export const Searchbar = ({onSubmit}) => {
+  const [query, setQuery] = useState('');
 
-  handleChange = event => {
-    this.setState({ query: event.currentTarget.value });
+  const handleChange = event => {
+    setQuery(event.currentTarget.value);
   }
 
-  handleSubmit = event => {
+  const handleSubmit = event => {
     event.preventDefault();
 
-    if (this.state.query.trim() === '') {
+    if (query.trim() === '') {
       alert('Please, enter anything to search');
       return;
     }
-    this.props.onSubmit(this.state);
-    this.reset();
+    onSubmit(query);
+    reset();
   };
 
-  reset = () => {
-    this.setState({ query: '' });
+  const reset = () => {
+    setQuery('');
   };
 
-  render() {
     return (
       <header className={css.Searchbar}>
-        <form className={css.SearchForm} onSubmit={this.handleSubmit}>
+        <form className={css.SearchForm} onSubmit={handleSubmit}>
           <button type="submit" className={css.SearchFormButton}>
             <span className={css.SearchFormButtonLabel}>Search</span>
           </button>
           <input
-            value={this.state.query}
-            onChange={this.handleChange}
+            value={query}
+            onChange={handleChange}
             name="inputForSearch"
             className={css.SearchFormInput}
             type="text"
@@ -47,5 +42,4 @@ export class Searchbar extends Component {
         </form>
       </header>
     );
-  }
 }
